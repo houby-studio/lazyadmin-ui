@@ -1,0 +1,20 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "powershell: copy dist files Lazy Admin",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"dependsOn": "quasar: build -m spa",
+			"command": "powershell.exe -Command {Remove-Item -Path \"$env:LOCALAPPDATA\\LazyAdmin\\EBWebView\\WebResources\" -Recurse -Force -ErrorAction SilentlyContinue; Copy-Item -Path \".\\dist\\spa\" -Destination \"$env:LOCALAPPDATA\\LazyAdmin\\EBWebView\\WebResources\" -Recurse -Force}"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"label": "quasar: build -m spa"
+		}
+	]
+}
