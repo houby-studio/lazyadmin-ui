@@ -28,24 +28,6 @@ Install extension according to guide in link.
 
 Refer to settings.json in `.vscode/settings.json` to view optimal project configuration for Visual Studio Code.
 
-```json
-{
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-      "source.fixAll": true
-  },
-  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
-  "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
-  "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
-  "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
-  "vetur.format.defaultFormatter.html": "js-beautify-html",
-  "vetur.format.defaultFormatter.js": "vscode-typescript"
-}
-```
-
 ## Install the dependencies
 
 ```bash
@@ -57,6 +39,10 @@ yarn
 ```bash
 quasar dev
 ```
+
+### Build the app and copy to Lazy Admin
+
+Press `Ctrl+Shift+B` to trigger `powershell: copy dist files Lazy Admin` task inside VSCode.
 
 ### Lint the files
 
