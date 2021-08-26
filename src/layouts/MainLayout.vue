@@ -27,11 +27,12 @@
       behavior="desktop"
       elevated
     >
-      All commands
+      TODO:
+      <!-- All commands
       Module A
       Module B
       About
-      Settings
+      Settings -->
     </q-drawer>
 
     <q-page-container>
@@ -47,6 +48,7 @@ import { ref } from 'vue'
 export default {
   setup () {
     const leftDrawerOpen = ref(false)
+    leftDrawerOpen.value = false
 
     return {
       leftDrawerOpen,
@@ -54,8 +56,6 @@ export default {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }
-
-    // asdasd
   }
 }
 </script>

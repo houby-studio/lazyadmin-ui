@@ -1,32 +1,29 @@
 <template>
-  <div class="q-pa-md row items-start q-gutter-md">
-    <q-card>
+  <div class="col">
+    <q-card class="full-height q-pa-md">
       <q-card-section>
-        <div class="q-pa-md">
-          <q-input
-            v-model="command"
-            filled
-            type="textarea"
-          />
-        </div>
+        <div class="text-h6">PowerShell input</div>
+        <q-input
+          v-model="command"
+          filled
+          type="textarea"
+        />
       </q-card-section>
       <q-card-section>
-        <div class="q-pa-md">
-          <q-input
-            v-model="response"
-            filled
-            type="textarea"
-          />
-        </div>
+        <div class="text-h6">PowerShell output</div>
+        <q-input
+          v-model="response"
+          filled
+          type="textarea"
+        />
       </q-card-section>
       <q-card-section>
-        <div class="q-pa-md">
-          <q-input
-            v-model="powershellData"
-            filled
-            type="textarea"
-          />
-        </div>
+        <div class="text-h6">PowerShell raw data</div>
+        <q-input
+          v-model="powershellData"
+          filled
+          type="textarea"
+        />
       </q-card-section>
 
       <q-separator dark />
@@ -48,17 +45,32 @@
         />
       </q-card-actions>
     </q-card>
+  </div>
 
-    <div class="q-pa-md">
-      <q-table
-        title="Runspaces"
-        :rows="rows"
-        :columns="columns"
-        hide-pagination
-        row-key="uid"
-        ref="runspacestables"
-      />
-    </div>
+  <div class="col">
+    <q-table
+      title="Runspaces"
+      :rows="rows"
+      :columns="columns"
+      :visible-columns="visibleColumns"
+      hide-pagination
+      row-key="uid"
+      ref="runspacestables"
+      class="full-height"
+      wrap-cells
+      hide-bottom
+    >
+      <!-- Template showing button which launches window prompting for parameters-->
+      <template v-slot:body-cell-resultsbutton="props">
+        <q-td
+          :props="props"
+          auto-width
+        >
+          <!-- <q-btn @click="$emit('show-command', (props.row))">RESULT</q-btn> -->
+          <q-btn @click="ShowResult(props.row)">RESULT</q-btn>
+        </q-td>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -81,17 +93,19 @@ export default defineComponent({
       // },
       { name: 'uid', align: 'center', label: 'UID', field: 'uid', sortable: true },
       { name: 'status', label: 'Status', field: 'status', sortable: true },
-      { name: 'result', label: 'Result', field: 'result', sortable: true }
+      { name: 'resultsbutton', align: 'center', label: 'Results' },
+      { name: 'result', label: '', field: '', sortable: true }
     ]
 
     const runspacestables = ref(null)
     const rows = ref([])
+    const visibleColumns = ref(['uid', 'status', 'resultsbutton'])
 
-    rows.value.push({
-      uid: '123',
-      status: 'SAD!',
-      result: 'unknown'
-    })
+    // rows.value.push({
+    //   uid: '123',
+    //   status: 'SAD!',
+    //   result: 'unknown'
+    // })
 
     const command = ref(null)
     const $store = useStore()
@@ -133,6 +147,10 @@ export default defineComponent({
       // rows.value[data.Uid].status = data.Status
     }
 
+    const ShowResult = (data) => {
+      response.value = JSON.stringify(data)
+    }
+
     onMounted(() => {
       console.log('Registering event listener for PowerShell data.')
       try {
@@ -153,10 +171,12 @@ export default defineComponent({
     return {
       runspacestables,
       columns,
+      visibleColumns,
       rows,
       command,
       response,
       powershellData,
+      ShowResult,
 
       onSubmit () {
         if (command.value === null) {
